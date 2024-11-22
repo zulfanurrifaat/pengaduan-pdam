@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1056624134025",
+    "project_id": "pengaduan-f9fd2",
+    "storage_bucket": "pengaduan-f9fd2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056624134025:android:84ee2af4c1173d3f9ac358",
+        "android_client_info": {
+          "package_name": "com.zulproject.pengaduan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3iWvO2kCNRwcgnT5qOXHPCZ7TslS5v_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
