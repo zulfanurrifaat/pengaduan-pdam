@@ -43,21 +43,28 @@ class LoginView extends GetView<LoginController> {
             width: 280,
             child: ElevatedButton(
               onPressed: () {
-                Get.toNamed(Routes.HOME);
+                Get.toNamed(Routes.HOME); 
               },
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  backgroundColor: Colors.grey.shade100),
+              child: Text(
+                "MASUK",
+                style: TextStyle(
+                  color: Colors.blue.shade400,
                 ),
               ),
-              child: Text("MASUK"),
             ),
           ),
           TextButton(
             onPressed: () {
               Get.toNamed(Routes.FORGOT_PASSWORD);
             },
-            child: Text("Lupa password ?"),
+            child: Text(
+              "Lupa password ?",
+              style: TextStyle(
+                color: Colors.grey.shade600,
+              ),
+            ),
           ),
         ],
       ),

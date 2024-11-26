@@ -55,11 +55,11 @@ class RegistrasiView extends GetView<RegistrasiController> {
                 Get.toNamed(Routes.HOME);
               },
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                  backgroundColor: Colors.grey.shade100),
+              child: Text(
+                "DAFTAR ADMIN",
+                style: TextStyle(color: Colors.blue.shade400),
               ),
-              child: Text("DAFTAR ADMIN"),
             ),
           ),
         ],

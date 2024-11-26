@@ -99,48 +99,48 @@ class HomeView extends GetView<HomeController> {
                           children: [
                             Text("Total"),
                             SizedBox(height: 5),
-                            Text(
-                              "50",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade400),
-                            ),
+                            Obx(() => Text(
+                                  "${controller.total.value}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue.shade400),
+                                )),
                           ],
                         ),
                         Column(
                           children: [
                             Text("Pending"),
                             SizedBox(height: 5),
-                            Text(
-                              "10",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade400),
-                            ),
+                            Obx(() => Text(
+                                  "${controller.pending.value}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue.shade400),
+                                )),
                           ],
                         ),
                         Column(
                           children: [
                             Text("Diproses"),
                             SizedBox(height: 5),
-                            Text(
-                              "30",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade400),
-                            ),
+                            Obx(() => Text(
+                                  "${controller.diproses.value}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue.shade400),
+                                )),
                           ],
                         ),
                         Column(
                           children: [
                             Text("Selesai"),
                             SizedBox(height: 5),
-                            Text(
-                              "10",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade400),
-                            ),
+                            Obx(() => Text(
+                                  "${controller.selesai.value}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue.shade400),
+                                )),
                           ],
                         ),
                       ],
@@ -159,17 +159,20 @@ class HomeView extends GetView<HomeController> {
                     elevation: 15,
                     shadowColor: Colors.blue.shade400,
                     backgroundColor: Colors.blue.shade400,
-                    side: BorderSide(color: Colors.blue, width: 1),
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    textStyle: TextStyle(fontSize: 18, color: Colors.black),
+                    textStyle: TextStyle(fontSize: 18),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Buat pengaduan baru'),
+                      Text(
+                        'Buat pengaduan baru',
+                        style: TextStyle(color: Color(0xFFF8F9FA)),
+                      ),
                       SizedBox(width: 15),
                       Icon(
                         Icons.mail,
+                        color: Color(0xFFF8F9FA),
                       ),
                     ],
                   ),
@@ -194,59 +197,57 @@ class HomeView extends GetView<HomeController> {
                     onPressed: () {
                       Get.toNamed(Routes.SEMUA_RIWAYAT);
                     },
-                    child: Text("Lihat semua..."),
+                    child: Text(
+                      "Lihat semua...",
+                      style: TextStyle(color: Colors.blue.shade400),
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 10),
               Expanded(
-                child: ListView(
-                  children: [
-                    for (var i = 0; i < 7; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
-                        child: Material(
-                          color: Colors.white,
+                child: ListView.builder(
+                  itemCount: controller.riwayatData.length,
+                  itemBuilder: (context, index) {
+                    final riwayat = controller.riwayatData[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: Material(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        child: InkWell(
+                          onTap: () {},
                           borderRadius: BorderRadius.circular(20),
-                          child: InkWell(
-                            onTap: () {},
-                            borderRadius: BorderRadius.circular(20),
-                            child: SizedBox(
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Tanggal : ${riwayat['tanggal']}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Tanggal : 20-11-2024",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "Waktu : 09.11",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "Bidang : Litbang TI",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                SizedBox(height: 8),
+                                Text(
+                                  "Waktu : ${riwayat['waktu']}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                              ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Bagian : ${riwayat['bagian']}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ],

@@ -9,34 +9,34 @@ class SemuaRiwayatView extends GetView<SemuaRiwayatController> {
   @override
   Widget build(BuildContext context) {
     final riwayatData = [
-      {"tanggal": "20-11-2024", "waktu": "09.11", "bidang": "Litbang TI"},
-      {"tanggal": "21-11-2024", "waktu": "10.00", "bidang": "Litbang Teknik"},
-      {"tanggal": "22-11-2024", "waktu": "11.30", "bidang": "Litbang Teknik"},
+      {"tanggal": "20-11-2024", "waktu": "09.11", "bagian": "Laboratotium"},
       {
-        "tanggal": "23-11-2024",
-        "waktu": "13.45",
-        "bidang": "Litbang ADM & UMUM"
+        "tanggal": "21-11-2024",
+        "waktu": "10.00",
+        "bagian": "Instalasi Wilayah"
       },
-      {"tanggal": "24-11-2024", "waktu": "15.20", "bidang": "Litbang TI"},
+      {
+        "tanggal": "22-11-2024",
+        "waktu": "11.30",
+        "bagian": "Pengawasan Teknik"
+      },
+      {"tanggal": "23-11-2024", "waktu": "13.45", "bagian": "Sumber Air"},
+      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Humas"},
+      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Peralatan"},
+      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Keuangan"},
       {
         "tanggal": "24-11-2024",
         "waktu": "15.20",
-        "bidang": "Litbang ADM & UMUM"
+        "bagian": "Perencanaan Teknik"
       },
-      {"tanggal": "24-11-2024", "waktu": "15.20", "bidang": "Litbang Teknik"},
-      {"tanggal": "24-11-2024", "waktu": "15.20", "bidang": "Litbang TI"},
-      {
-        "tanggal": "24-11-2024",
-        "waktu": "15.20",
-        "bidang": "Litbang ADM & UMUM"
-      },
+      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Umum"},
     ];
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('SEMUA RIWAYAT'),
+        title: const Text('SEMUA PENGADUAN'),
         centerTitle: true,
       ),
       body: Padding(
@@ -75,7 +75,7 @@ class SemuaRiwayatView extends GetView<SemuaRiwayatController> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          "Bidang : ${riwayat['bidang']}",
+                          "Bagian : ${riwayat['bagian']}",
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],

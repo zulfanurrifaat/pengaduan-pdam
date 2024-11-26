@@ -32,7 +32,12 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
             width: 280,
             child: ElevatedButton(
               onPressed: () {},
-              child: Text("KIRIM RESET PASSWORD"),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey.shade100),
+              child: Text(
+                "KIRIM RESET PASSWORD",
+                style: TextStyle(color: Colors.blue.shade400),
+              ),
             ),
           ),
         ],

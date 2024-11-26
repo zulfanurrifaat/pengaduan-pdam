@@ -36,7 +36,12 @@ class StartView extends GetView<StartController> {
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey.shade100),
-                child: Text("Masuk"),
+                child: Text(
+                  "Masuk",
+                  style: TextStyle(
+                    color: Colors.blue.shade400,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 15),
@@ -47,8 +52,13 @@ class StartView extends GetView<StartController> {
                   Get.toNamed(Routes.REGISTRASI);
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue.shade300),
-                child: Text("Daftar"),
+                    backgroundColor: Colors.blue.shade400),
+                child: Text(
+                  "Daftar",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],

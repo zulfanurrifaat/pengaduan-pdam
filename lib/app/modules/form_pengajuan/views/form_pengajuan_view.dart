@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/form_pengajuan_controller.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:pengaduan/app/modules/form_pengajuan/controllers/form_pengajuan_controller.dart'; // Import untuk menggunakan TextInputFormatter
 
 class FormPengajuanView extends GetView<FormPengajuanController> {
   const FormPengajuanView({super.key});
@@ -9,8 +10,9 @@ class FormPengajuanView extends GetView<FormPengajuanController> {
   Widget build(BuildContext context) {
     final TextEditingController tanggalController = TextEditingController();
     final TextEditingController jamController = TextEditingController();
+    final TextEditingController nomorHandphoneController =
+        TextEditingController();
 
-    String? selectedBidang;
     String? selectedKategori;
 
     return Scaffold(
@@ -24,39 +26,16 @@ class FormPengajuanView extends GetView<FormPengajuanController> {
         padding: EdgeInsets.all(20),
         children: [
           DropdownButtonFormField<String>(
-            value: selectedBidang,
+            value: selectedKategori,
             onChanged: (String? newValue) {
-              selectedBidang = newValue;
+              selectedKategori = newValue;
             },
             items: <String>[
-              'Bidang Litbang TI',
-              'Bidang Litbang Teknik',
-              'Bidang Litbang ADM & UMUM',
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              labelText: "Pilih Bidang",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          SizedBox(height: 15),
-          DropdownButtonFormField<String>(
-            value: selectedBidang,
-            onChanged: (String? newValue) {
-              selectedBidang = newValue;
-            },
-            items: <String>[
-              'Bagian Umum',
-              'Bagian Keuangan',
-              'Bagian Humas',
-              'Bagian Peralatan',
               'Bagian Perencanaan Teknik',
+              'Bagian Pengawasan Teknik',
+              'Bagian Evaluasi & Pelaporan Teknik',
+              'Bagian Sumber Air',
+              'Bagian Instalasi Wilayah',
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -79,14 +58,31 @@ class FormPengajuanView extends GetView<FormPengajuanController> {
             items: <String>[
               'Sistem Informasi',
               'Infrastruktur',
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+            ].map<DropdownMenuItem<String>>(
+              (String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              },
+            ).toList(),
             decoration: InputDecoration(
               labelText: "Kategori Pengaduan",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          TextField(
+            controller: nomorHandphoneController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            autocorrect: false,
+            decoration: InputDecoration(
+              labelText: "No Handphone",
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -158,13 +154,15 @@ class FormPengajuanView extends GetView<FormPengajuanController> {
                 print('Pengaduan Ajukan');
                 print('Tanggal: ${tanggalController.text}');
                 print('Jam: ${jamController.text}');
+                print('Nomor Handphone: ${nomorHandphoneController.text}');
               },
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                backgroundColor: Colors.grey.shade100,
               ),
-              child: Text("AJUKAN PENGADUAN"),
+              child: Text(
+                "AJUKAN PENGADUAN",
+                style: TextStyle(color: Colors.blue.shade400),
+              ),
             ),
           ),
         ],
