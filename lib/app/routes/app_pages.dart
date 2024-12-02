@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/detail_pengaduan/bindings/detail_pengaduan_binding.dart';
+import '../modules/detail_pengaduan/views/detail_pengaduan_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
 import '../modules/forgot_password/views/forgot_password_view.dart';
 import '../modules/form_pengajuan/bindings/form_pengajuan_binding.dart';
@@ -8,6 +10,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/notifikasi/bindings/notifikasi_binding.dart';
+import '../modules/notifikasi/views/notifikasi_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/registrasi/bindings/registrasi_binding.dart';
@@ -16,6 +20,10 @@ import '../modules/semua_riwayat/bindings/semua_riwayat_binding.dart';
 import '../modules/semua_riwayat/views/semua_riwayat_view.dart';
 import '../modules/start/bindings/start_binding.dart';
 import '../modules/start/views/start_view.dart';
+import '../modules/update_password/bindings/update_password_binding.dart';
+import '../modules/update_password/views/update_password_view.dart';
+import '../modules/update_profile/bindings/update_profile_binding.dart';
+import '../modules/update_profile/views/update_profile_view.dart';
 
 part 'app_routes.dart';
 
@@ -64,6 +72,26 @@ class AppPages {
       name: _Paths.SEMUA_RIWAYAT,
       page: () => const SemuaRiwayatView(),
       binding: SemuaRiwayatBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PENGADUAN,
+      page: () => const DetailPengaduanView(),
+      binding: DetailPengaduanBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_PASSWORD,
+      page: () => const UpdatePasswordView(),
+      binding: UpdatePasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_PROFILE,
+      page: () => const UpdateProfileView(),
+      binding: UpdateProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFIKASI,
+      page: () => const NotifikasiView(),
+      binding: NotifikasiBinding(),
     ),
   ];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pengaduan/app/routes/app_pages.dart';
 
 import '../controllers/semua_riwayat_controller.dart';
 
@@ -8,30 +9,6 @@ class SemuaRiwayatView extends GetView<SemuaRiwayatController> {
 
   @override
   Widget build(BuildContext context) {
-    final riwayatData = [
-      {"tanggal": "20-11-2024", "waktu": "09.11", "bagian": "Laboratotium"},
-      {
-        "tanggal": "21-11-2024",
-        "waktu": "10.00",
-        "bagian": "Instalasi Wilayah"
-      },
-      {
-        "tanggal": "22-11-2024",
-        "waktu": "11.30",
-        "bagian": "Pengawasan Teknik"
-      },
-      {"tanggal": "23-11-2024", "waktu": "13.45", "bagian": "Sumber Air"},
-      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Humas"},
-      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Peralatan"},
-      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Keuangan"},
-      {
-        "tanggal": "24-11-2024",
-        "waktu": "15.20",
-        "bagian": "Perencanaan Teknik"
-      },
-      {"tanggal": "24-11-2024", "waktu": "15.20", "bagian": "Umum"},
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,52 +16,113 @@ class SemuaRiwayatView extends GetView<SemuaRiwayatController> {
         title: const Text('SEMUA PENGADUAN'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView.builder(
-          itemCount: riwayatData.length,
-          itemBuilder: (context, index) {
-            final riwayat = riwayatData[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
-              child: Material(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                child: InkWell(
-                  onTap: () {
-                    print("Item ${index + 1} diklik");
-                  },
+      body: Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: ListView.builder(
+            itemCount: controller.riwayatData.length,
+            itemBuilder: (context, index) {
+              final riwayat = controller.riwayatData[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Material(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Tanggal : ${riwayat['tanggal']}",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Waktu : ${riwayat['waktu']}",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Bagian : ${riwayat['bagian']}",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.DETAIL_PENGADUAN,
+                          arguments: ({
+                            'bagian': riwayat['bagian'],
+                            'kategori pengaduan': riwayat['kategori pengaduan'],
+                            'no handphone': riwayat['no handphone'],
+                            'uraian pengaduan': riwayat['uraian pengaduan'],
+                          }));
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Bagian: ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${riwayat['bagian']}",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Kategori Pengaduan: ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${riwayat['kategori pengaduan']}",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "No Handphone: ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${riwayat['no handphone']}",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Uraian Pengaduan: ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${riwayat['uraian pengaduan']}",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

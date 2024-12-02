@@ -51,10 +51,16 @@ class ProfileView extends GetView<ProfileController> {
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text("Update Profile"),
+                    onTap: () {
+                      Get.toNamed(Routes.UPDATE_PROFILE);
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.vpn_key),
                     title: const Text("Update Password"),
+                    onTap: () {
+                      Get.toNamed(Routes.UPDATE_PASSWORD);
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.logout),

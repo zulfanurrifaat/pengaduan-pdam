@@ -11,6 +11,10 @@ abstract class Routes {
   static const FORM_PENGAJUAN = _Paths.FORM_PENGAJUAN;
   static const PROFILE = _Paths.PROFILE;
   static const SEMUA_RIWAYAT = _Paths.SEMUA_RIWAYAT;
+  static const DETAIL_PENGADUAN = _Paths.DETAIL_PENGADUAN;
+  static const UPDATE_PASSWORD = _Paths.UPDATE_PASSWORD;
+  static const UPDATE_PROFILE = _Paths.UPDATE_PROFILE;
+  static const NOTIFIKASI = _Paths.NOTIFIKASI;
 }
 
 abstract class _Paths {
@@ -23,4 +27,8 @@ abstract class _Paths {
   static const FORM_PENGAJUAN = '/form-pengajuan';
   static const PROFILE = '/profile';
   static const SEMUA_RIWAYAT = '/semua-riwayat';
+  static const DETAIL_PENGADUAN = '/detail-pengaduan';
+  static const UPDATE_PASSWORD = '/update-password';
+  static const UPDATE_PROFILE = '/update-profile';
+  static const NOTIFIKASI = '/notifikasi';
 }

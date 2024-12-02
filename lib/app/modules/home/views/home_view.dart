@@ -11,248 +11,346 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Column(
+              children: [
+                Container(
+                  height: 330,
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade400,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Column(
                     children: [
-                      Image.asset(
-                        'assets/images/pdam.png',
-                        width: 48,
-                        height: 48,
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "PERUMDAM",
-                            style: TextStyle(
-                                fontSize: 10, color: Colors.blue.shade400),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/pdam.png',
+                                width: 50,
+                                height: 48,
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "PERUMDAM",
+                                    style: TextStyle(
+                                        fontSize: 8, color: Colors.white),
+                                  ),
+                                  Text(
+                                    "TIRTA WIJAYA",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          Text(
-                            "TIRTA WIJAYA",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.blue.shade400,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
+                          IconButton(
+                            icon: Icon(
+                              Icons.notifications,
+                              color: Colors.white,
+                              size: 30,
                             ),
+                            onPressed: () {
+                              Get.toNamed(Routes.NOTIFIKASI);
+                            },
                           ),
                         ],
                       ),
                     ],
                   ),
-                  Divider(
-                    color: Colors.grey.shade100,
-                    thickness: 2,
-                    indent: 0,
-                    endIndent: 0,
+                  SizedBox(height: 20),
+                  Text(
+                    "Halo, Zulfa Nurrifaat",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
                   ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Text(
-                "Halo, Zulfa Nurrifaat",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade800,
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.black12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 5,
-                      offset: Offset(0, 2),
+                  SizedBox(height: 15),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Aktivitasmu bulan ini",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          children: [
-                            Text("Total"),
-                            SizedBox(height: 5),
-                            Obx(() => Text(
-                                  "${controller.total.value}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue.shade400),
-                                )),
-                          ],
+                        Text(
+                          "Aktivitasmu bulan ini",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Column(
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text("Pending"),
-                            SizedBox(height: 5),
-                            Obx(() => Text(
-                                  "${controller.pending.value}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue.shade400),
-                                )),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text("Diproses"),
-                            SizedBox(height: 5),
-                            Obx(() => Text(
-                                  "${controller.diproses.value}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue.shade400),
-                                )),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text("Selesai"),
-                            SizedBox(height: 5),
-                            Obx(() => Text(
-                                  "${controller.selesai.value}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue.shade400),
-                                )),
+                            Column(
+                              children: [
+                                Text("Total"),
+                                SizedBox(height: 5),
+                                Obx(() => Text(
+                                      "${controller.total.value}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue.shade400),
+                                    )),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("Pending"),
+                                SizedBox(height: 5),
+                                Obx(() => Text(
+                                      "${controller.pending.value}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue.shade400),
+                                    )),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("Diproses"),
+                                SizedBox(height: 5),
+                                Obx(() => Text(
+                                      "${controller.diproses.value}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue.shade400),
+                                    )),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text("Selesai"),
+                                SizedBox(height: 5),
+                                Obx(() => Text(
+                                      "${controller.selesai.value}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue.shade400),
+                                    )),
+                              ],
+                            ),
                           ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 15),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.FORM_PENGAJUAN);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 15,
-                    shadowColor: Colors.blue.shade400,
-                    backgroundColor: Colors.blue.shade400,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    textStyle: TextStyle(fontSize: 18),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  SizedBox(height: 15),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.FORM_PENGAJUAN);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey.shade100,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        textStyle: TextStyle(fontSize: 18),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Buat pengaduan baru',
+                            style: TextStyle(color: Colors.blue.shade400),
+                          ),
+                          SizedBox(width: 15),
+                          Icon(
+                            Icons.mail,
+                            color: Colors.blue.shade400,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Divider(
+                    color: Colors.grey.shade400,
+                    thickness: 2,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Buat pengaduan baru',
-                        style: TextStyle(color: Color(0xFFF8F9FA)),
+                        "Riwayat pengaduan",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
                       ),
-                      SizedBox(width: 15),
-                      Icon(
-                        Icons.mail,
-                        color: Color(0xFFF8F9FA),
+                      TextButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.SEMUA_RIWAYAT);
+                        },
+                        child: Text(
+                          "Lihat semua...",
+                          style: TextStyle(color: Colors.blue.shade400),
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
-              SizedBox(height: 15),
-              Divider(
-                color: Colors.black,
-                thickness: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Riwayat pengaduan",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Get.toNamed(Routes.SEMUA_RIWAYAT);
-                    },
-                    child: Text(
-                      "Lihat semua...",
-                      style: TextStyle(color: Colors.blue.shade400),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: controller.riwayatData.length,
+                      itemBuilder: (context, index) {
+                        final riwayat = controller.riwayatData[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: Material(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.DETAIL_PENGADUAN,
+                                    arguments: {
+                                      'bagian': riwayat['bagian'],
+                                      'kategori pengaduan':
+                                          riwayat['kategori pengaduan'],
+                                      'no handphone': riwayat['no handphone'],
+                                      'uraian pengaduan':
+                                          riwayat['uraian pengaduan'],
+                                    });
+                              },
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Bagian: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            "${riwayat['bagian']}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Kategori Pengaduan: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            "${riwayat['kategori pengaduan']}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "No Handphone: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            "${riwayat['no handphone']}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Uraian Pengaduan: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            "${riwayat['uraian pengaduan']}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: controller.riwayatData.length,
-                  itemBuilder: (context, index) {
-                    final riwayat = controller.riwayatData[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: Material(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        child: InkWell(
-                          onTap: () {},
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Tanggal : ${riwayat['tanggal']}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  "Waktu : ${riwayat['waktu']}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  "Bagian : ${riwayat['bagian']}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.fixed,

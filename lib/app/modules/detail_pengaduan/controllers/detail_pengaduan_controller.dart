@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class DetailPengaduanController extends GetxController {
   var riwayatData = [
     {
       "bagian": "Laboratorium",

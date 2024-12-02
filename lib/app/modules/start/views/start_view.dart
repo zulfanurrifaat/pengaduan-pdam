@@ -44,7 +44,7 @@ class StartView extends GetView<StartController> {
                 ),
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             SizedBox(
               width: 280,
               child: ElevatedButton(
