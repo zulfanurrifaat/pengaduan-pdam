@@ -24,29 +24,29 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
             decoration: InputDecoration(
               labelText: "Password saat ini",
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(50),
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           TextField(
             autocorrect: false,
             obscureText: true,
             decoration: InputDecoration(
               labelText: "Password baru",
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(50),
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           TextField(
             autocorrect: false,
             obscureText: true,
             decoration: InputDecoration(
               labelText: "Konfirmasi password baru",
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(50),
               ),
             ),
           ),
@@ -60,7 +60,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
               child: Text(
                 "UBAH PASSWORD",
                 style: TextStyle(
-                  color: Colors.blue.shade400,
+                  color: Color(0xFF0082C6),
                 ),
               ),
             ),

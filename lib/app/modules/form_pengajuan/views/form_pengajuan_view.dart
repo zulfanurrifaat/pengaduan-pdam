@@ -1,123 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:pengaduan/app/modules/form_pengajuan/controllers/form_pengajuan_controller.dart';
+import 'package:get/get.dart';
+import 'package:pengaduan/app/routes/app_pages.dart';
+import '../controllers/form_pengajuan_controller.dart';
 
 class FormPengajuanView extends GetView<FormPengajuanController> {
   const FormPengajuanView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController tanggalController = TextEditingController();
-    final TextEditingController jamController = TextEditingController();
-    final TextEditingController nomorHandphoneController =
-        TextEditingController();
-
-    String? selectedKategori;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('FORMULIR PENGADUAN'),
+        title: const Text(
+          'FORMULIR PENGADUAN',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
-          DropdownButtonFormField<String>(
-            isExpanded: true,
-            dropdownColor: Colors.blue.shade50,
-            borderRadius: BorderRadius.circular(20),
-            value: selectedKategori,
-            onChanged: (String? newValue) {
-              selectedKategori = newValue;
-            },
-            items: <String>[
-              'Perencanaan Teknik',
-              'Pengawasan Teknik',
-              'Evaluasi & Pelaporan Teknik',
-              'Sumber Air',
-              'Instalasi Wilayah',
-              'Laboratorium',
-              'Evaluasi & Pelaporan Produksi',
-              'Transmisi & Distribusi ',
-              'Penanggulangan Kebocoran Air',
-              'Permesinan',
-              'Perlistrikan',
-              'Pemeliharaan Peralatan Teknik',
-              'Anggaran',
-              'Akuntansi',
-              'Piutang & Penagihan',
-              'Kas',
-              'Humas & Hukum',
-              'Pelayanan & Pemasaran',
-              'Baca Meter Air & Langganan',
-              'Pergudangan',
-              'Sumber Daya Manusia',
-              'Administrasi Umum',
-              'Aset',
-              'Koordinator Pengadaan Barang & Jasa Lainya',
-              'Koordinator Pengadaan Konstruksi & Jasa Konsultasi',
-              'Koordinator Pengawas Pelaksana Bidang Umum',
-              'Koordinator Pengawas Pelaksana Bidang Teknik',
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              labelText: "Pilih Bagian",
-              border: OutlineInputBorder(
+          Obx(() => DropdownButtonFormField<String>(
+                isExpanded: true,
+                dropdownColor: Colors.blue.shade50,
                 borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          SizedBox(height: 15),
-          DropdownButtonFormField<String>(
-            isExpanded: true,
-            dropdownColor: Colors.blue.shade50,
-            borderRadius: BorderRadius.circular(20),
-            value: selectedKategori,
-            onChanged: (String? newValue) {
-              selectedKategori = newValue;
-            },
-            items: <String>[
-              'Sistem Informasi',
-              'Infrastruktur',
-            ].map<DropdownMenuItem<String>>(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              },
-            ).toList(),
-            decoration: InputDecoration(
-              labelText: "Kategori Pengaduan",
-              border: OutlineInputBorder(
+                value: controller.bagian.value,
+                onChanged: (String? newValue) {
+                  controller.bagian.value = newValue;
+                },
+                items: <String>[
+                  'Perencanaan Teknik',
+                  'Pengawasan Teknik',
+                  'Evaluasi & Pelaporan Teknik',
+                  'Sumber Air',
+                  'Instalasi Wilayah',
+                  'Laboratorium',
+                  'Evaluasi & Pelaporan Produksi',
+                  'Transmisi & Distribusi ',
+                  'Penanggulangan Kebocoran Air',
+                  'Permesinan',
+                  'Perlistrikan',
+                  'Pemeliharaan Peralatan Teknik',
+                  'Anggaran',
+                  'Akuntansi',
+                  'Piutang & Penagihan',
+                  'Kas',
+                  'Humas & Hukum',
+                  'Pelayanan & Pemasaran',
+                  'Baca Meter Air & Langganan',
+                  'Pergudangan',
+                  'Sumber Daya Manusia',
+                  'Administrasi Umum',
+                  'Aset',
+                  'Koordinator Pengadaan Barang & Jasa Lainya',
+                  'Koordinator Pengadaan Konstruksi & Jasa Konsultasi',
+                  'Koordinator Pengawas Pelaksana Bidang Umum',
+                  'Koordinator Pengawas Pelaksana Bidang Teknik',
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: "Pilih Bagian",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              )),
+          const SizedBox(height: 15),
+          Obx(() => DropdownButtonFormField<String>(
+                isExpanded: true,
+                dropdownColor: Colors.blue.shade50,
                 borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          SizedBox(height: 15),
+                value: controller.kategoriPengaduan.value,
+                onChanged: (String? newValue) {
+                  controller.kategoriPengaduan.value = newValue;
+                },
+                items: <String>[
+                  'Sistem Informasi',
+                  'Infrastruktur',
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: "Kategori Pengaduan",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              )),
+          const SizedBox(height: 15),
           TextField(
-            controller: nomorHandphoneController,
+            controller: controller.noHandphone,
             keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             autocorrect: false,
             decoration: InputDecoration(
               labelText: "No Handphone",
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(50),
               ),
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           TextField(
+            controller: controller.uraianPengaduan,
             autocorrect: false,
             maxLines: 5,
             decoration: InputDecoration(
@@ -125,28 +121,27 @@ class FormPengajuanView extends GetView<FormPengajuanController> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: const EdgeInsets.symmetric(
                 vertical: 5,
                 horizontal: 10,
               ),
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           SizedBox(
             width: 280,
             child: ElevatedButton(
               onPressed: () {
-                print('Pengaduan Ajukan');
-                print('Tanggal: ${tanggalController.text}');
-                print('Jam: ${jamController.text}');
-                print('Nomor Handphone: ${nomorHandphoneController.text}');
+                controller.submitPengaduan();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey.shade100,
               ),
-              child: Text(
-                "AJUKAN PENGADUAN",
-                style: TextStyle(color: Colors.blue.shade400),
+              child: const Text(
+                "KIRIM TICKET PENGADUAN",
+                style: TextStyle(
+                  color: Color(0xFF0082C6),
+                ),
               ),
             ),
           ),

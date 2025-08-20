@@ -15,6 +15,8 @@ abstract class Routes {
   static const UPDATE_PASSWORD = _Paths.UPDATE_PASSWORD;
   static const UPDATE_PROFILE = _Paths.UPDATE_PROFILE;
   static const NOTIFIKASI = _Paths.NOTIFIKASI;
+  static const ADD_PEGAWAI = _Paths.ADD_PEGAWAI;
+  static const HOME_ADMIN = _Paths.HOME_ADMIN;
 }
 
 abstract class _Paths {
@@ -31,4 +33,6 @@ abstract class _Paths {
   static const UPDATE_PASSWORD = '/update-password';
   static const UPDATE_PROFILE = '/update-profile';
   static const NOTIFIKASI = '/notifikasi';
+  static const ADD_PEGAWAI = '/add-pegawai';
+  static const HOME_ADMIN = '/home-admin';
 }

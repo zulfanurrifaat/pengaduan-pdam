@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
@@ -18,11 +19,11 @@ class HomeView extends GetView<HomeController> {
               children: [
                 Container(
                   height: 330,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade400,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF0082C6),
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
                     ),
                   ),
                 ),
@@ -31,71 +32,73 @@ class HomeView extends GetView<HomeController> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
+                  // ======= HEADER LOGO & NOTIFIKASI =======
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/pdam.png',
-                                width: 50,
-                                height: 48,
+                          Image.asset(
+                            'assets/images/pdaamm.png',
+                            width: 80,
+                            height: 57,
+                          ),
+                          const SizedBox(width: 5),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                "PERUMDAM",
+                                style:
+                                    TextStyle(fontSize: 8, color: Colors.white),
                               ),
-                              SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "PERUMDAM",
-                                    style: TextStyle(
-                                        fontSize: 8, color: Colors.white),
-                                  ),
-                                  Text(
-                                    "TIRTA WIJAYA",
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                "TIRTA WIJAYA",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
                             ],
                           ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.notifications,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            onPressed: () {
-                              Get.toNamed(Routes.NOTIFIKASI);
-                            },
-                          ),
                         ],
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.notifications,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          Get.toNamed(Routes.NOTIFIKASI);
+                        },
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Text(
-                    "Halo, Zulfa Nurrifaat",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 20),
+
+                  // ======= HALO USER =======
+                  Obx(() => Text(
+                        "Halo, ${controller.namaUser.value}",
+                        style: GoogleFonts.lato(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      )),
+
+                  const SizedBox(height: 15),
+
+                  // ======= KOTAK AKTIVITAS =======
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -103,7 +106,7 @@ class HomeView extends GetView<HomeController> {
                         BoxShadow(
                           color: Colors.black12,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -112,69 +115,27 @@ class HomeView extends GetView<HomeController> {
                       children: [
                         Text(
                           "Aktivitasmu bulan ini",
-                          style: TextStyle(
+                          style: GoogleFonts.lato(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Column(
-                              children: [
-                                Text("Total"),
-                                SizedBox(height: 5),
-                                Obx(() => Text(
-                                      "${controller.total.value}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blue.shade400),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text("Pending"),
-                                SizedBox(height: 5),
-                                Obx(() => Text(
-                                      "${controller.pending.value}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blue.shade400),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text("Diproses"),
-                                SizedBox(height: 5),
-                                Obx(() => Text(
-                                      "${controller.diproses.value}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blue.shade400),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text("Selesai"),
-                                SizedBox(height: 5),
-                                Obx(() => Text(
-                                      "${controller.selesai.value}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blue.shade400),
-                                    )),
-                              ],
-                            ),
+                            _buildStatItem("Total", controller.total),
+                            _buildStatItem("Pending", controller.pending),
+                            _buildStatItem("Diproses", controller.diproses),
+                            _buildStatItem("Selesai", controller.selesai),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
+
+                  // ======= TOMBOL BUAT TICKET =======
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -183,37 +144,37 @@ class HomeView extends GetView<HomeController> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey.shade100,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                        textStyle: TextStyle(fontSize: 18),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        textStyle: const TextStyle(fontSize: 18),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Buat pengaduan baru',
-                            style: TextStyle(color: Colors.blue.shade400),
+                            'Buat ticket pengaduan',
+                            style: GoogleFonts.lato(
+                              color: const Color(0xFF0082C6),
+                            ),
                           ),
-                          SizedBox(width: 15),
-                          Icon(
+                          const SizedBox(width: 15),
+                          const Icon(
                             Icons.mail,
-                            color: Colors.blue.shade400,
+                            color: Color(0xFF0082C6),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
-                  Divider(
-                    color: Colors.grey.shade400,
-                    thickness: 2,
-                  ),
+                  const SizedBox(height: 15),
+
+                  // ======= JUDUL RIWAYAT =======
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Riwayat pengaduan",
-                        style: TextStyle(
+                        style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
@@ -224,115 +185,100 @@ class HomeView extends GetView<HomeController> {
                         },
                         child: Text(
                           "Lihat semua...",
-                          style: TextStyle(color: Colors.blue.shade400),
+                          style: GoogleFonts.lato(color: Colors.blue.shade400),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
+
+                  // ======= LISTVIEW RIWAYAT SCROLLABLE =======
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: controller.riwayatData.length,
-                      itemBuilder: (context, index) {
-                        final riwayat = controller.riwayatData[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: Material(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            child: InkWell(
+                    child: Obx(
+                      () {
+                        if (controller.riwayatData.isEmpty) {
+                          return const Center(
+                              child: Text("Belum ada pengaduan"));
+                        }
+                        return ListView.builder(
+                          itemCount: controller.riwayatData.length,
+                          itemBuilder: (context, index) {
+                            final riwayat = controller.riwayatData[index];
+                            return GestureDetector(
                               onTap: () {
                                 Get.toNamed(Routes.DETAIL_PENGADUAN,
-                                    arguments: {
-                                      'bagian': riwayat['bagian'],
-                                      'kategori pengaduan':
-                                          riwayat['kategori pengaduan'],
-                                      'no handphone': riwayat['no handphone'],
-                                      'uraian pengaduan':
-                                          riwayat['uraian pengaduan'],
-                                    });
+                                    arguments: riwayat);
                               },
-                              borderRadius: BorderRadius.circular(20),
                               child: Container(
-                                padding: const EdgeInsets.all(20),
+                                margin: const EdgeInsets.only(bottom: 15),
+                                padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black),
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
+                                  border:
+                                      Border.all(color: Colors.grey.shade200),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Bagian: ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                          riwayat['kategori pengaduan'] ??
+                                              "Tidak Tersedia",
+                                          style: GoogleFonts.lato(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Colors.black87,
+                                          ),
                                         ),
-                                        Expanded(
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 5,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: _getStatusColor(
+                                                riwayat['status']),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
                                           child: Text(
-                                            "${riwayat['bagian']}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal),
+                                            riwayat['status'] ?? "Pending",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 8),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Kategori Pengaduan: ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            "${riwayat['kategori pengaduan']}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                        ),
-                                      ],
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      riwayat['uraian pengaduan'] ??
+                                          "Uraian tidak tersedia",
+                                      style: GoogleFonts.lato(
+                                        fontSize: 14,
+                                        color: Colors.grey.shade700,
+                                      ),
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 10),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
                                       children: [
+                                        const Icon(
+                                          Icons.phone,
+                                          size: 16,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 5),
                                         Text(
-                                          "No Handphone: ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            "${riwayat['no handphone']}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 8),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Uraian Pengaduan: ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            "${riwayat['uraian pengaduan']}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal),
+                                          riwayat['no handphone'] ??
+                                              "Tidak tersedia",
+                                          style: GoogleFonts.lato(
+                                            fontSize: 13,
+                                            color: Colors.blue.shade400,
                                           ),
                                         ),
                                       ],
@@ -340,8 +286,8 @@ class HomeView extends GetView<HomeController> {
                                   ],
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         );
                       },
                     ),
@@ -352,10 +298,11 @@ class HomeView extends GetView<HomeController> {
           ),
         ],
       ),
+      // ======= NAVBAR =======
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.fixed,
-        backgroundColor: Colors.blue.shade400,
-        items: [
+        backgroundColor: const Color(0xFF0082C6),
+        items: const [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.add, title: 'Ajukan'),
           TabItem(icon: Icons.people, title: 'Profile'),
@@ -365,12 +312,45 @@ class HomeView extends GetView<HomeController> {
           if (index == 1) {
             Get.toNamed(Routes.FORM_PENGAJUAN);
           } else if (index == 0) {
-            Get.offAllNamed(Routes.HOME);
+            // Jangan reload Home lagi biar tidak duplikat
           } else if (index == 2) {
             Get.toNamed(Routes.PROFILE);
           }
         },
       ),
+    );
+  }
+
+  // Warna status pengaduan
+  Color _getStatusColor(String? status) {
+    switch (status) {
+      case "Pending":
+        return Colors.red;
+      case "Diproses":
+        return Colors.blue;
+      case "Selesai":
+        return Colors.grey;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  // Item statistik
+  Widget _buildStatItem(String title, RxInt value) {
+    return Column(
+      children: [
+        Text(title),
+        const SizedBox(height: 5),
+        Obx(
+          () => Text(
+            "${value.value}",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.blue.shade400,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

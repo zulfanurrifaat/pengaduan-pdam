@@ -8,7 +8,7 @@ class DetailPengaduanController extends GetxController {
       "no handphone": "081577234892",
       "uraian pengaduan":
           "Sistem pengelolaan data pelanggan sering mengalami gangguan",
-      "status": "Selesai"
+      "status": "Pending"
     },
     {
       "bagian": "Instalasi Wilayah",
@@ -22,7 +22,7 @@ class DetailPengaduanController extends GetxController {
       "kategori pengaduan": "Infrastruktur",
       "no handphone": "089522036542",
       "uraian pengaduan": "",
-      "status": "Diproses"
+      "status": "Selesai"
     },
     {
       "bagian": "Sumber Air",
@@ -36,14 +36,14 @@ class DetailPengaduanController extends GetxController {
       "kategori pengaduan": "Infrastruktur",
       "no handphone": "089522036976",
       "uraian pengaduan": "",
-      "status": "Pending"
+      "status": "Selesai"
     },
     {
       "bagian": "Peralatan",
       "kategori pengaduan": "Sistem Informasi",
       "no handphone": "085521036592",
       "uraian pengaduan": "",
-      "status": "Diproses"
+      "status": "Selesai"
     },
     {
       "bagian": "Keuangan",
@@ -57,7 +57,7 @@ class DetailPengaduanController extends GetxController {
       "kategori pengaduan": "Infrastruktur",
       "no handphone": "089528036542",
       "uraian pengaduan": "",
-      "status": "Diproses"
+      "status": "Selesai"
     },
     {
       "bagian": "Umum",

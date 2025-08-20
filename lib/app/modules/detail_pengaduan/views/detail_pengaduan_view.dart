@@ -7,26 +7,27 @@ class DetailPengaduanView extends GetView<DetailPengaduanController> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final data = Get.arguments; // Ini Data dari SemuaRiwayatView
     final Map<String, dynamic> riwayat = Get.arguments;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('DETAIL PENGADUAN'),
+        title: const Text(
+          'DETAIL PENGADUAN',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
           Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.black),
+              border: Border.all(color: Colors.grey.shade400),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,62 +35,62 @@ class DetailPengaduanView extends GetView<DetailPengaduanController> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Bagian: ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Expanded(
                       child: Text(
-                        "${riwayat['bagian']}",
-                        style: TextStyle(fontWeight: FontWeight.normal),
+                        riwayat['bagian'] ?? 'N/A',
+                        style: const TextStyle(fontWeight: FontWeight.normal),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Kategori Pengaduan: ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Expanded(
                       child: Text(
-                        "${riwayat['kategori pengaduan']}",
-                        style: TextStyle(fontWeight: FontWeight.normal),
+                        riwayat['kategori pengaduan'] ?? 'N/A',
+                        style: const TextStyle(fontWeight: FontWeight.normal),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "No Handphone: ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Expanded(
                       child: Text(
-                        "${riwayat['no handphone']}",
-                        style: TextStyle(fontWeight: FontWeight.normal),
+                        riwayat['no handphone'] ?? 'N/A',
+                        style: const TextStyle(fontWeight: FontWeight.normal),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Uraian Pengaduan: ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Expanded(
                       child: Text(
-                        "${riwayat['uraian pengaduan']}",
-                        style: TextStyle(fontWeight: FontWeight.normal),
+                        riwayat['uraian pengaduan'] ?? 'N/A',
+                        style: const TextStyle(fontWeight: FontWeight.normal),
                       ),
                     ),
                   ],

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/add_pegawai/bindings/add_pegawai_binding.dart';
+import '../modules/add_pegawai/views/add_pegawai_view.dart';
 import '../modules/detail_pengaduan/bindings/detail_pengaduan_binding.dart';
 import '../modules/detail_pengaduan/views/detail_pengaduan_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -8,6 +10,8 @@ import '../modules/form_pengajuan/bindings/form_pengajuan_binding.dart';
 import '../modules/form_pengajuan/views/form_pengajuan_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/home_admin/bindings/home_admin_binding.dart';
+import '../modules/home_admin/views/home_admin_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/notifikasi/bindings/notifikasi_binding.dart';
@@ -65,7 +69,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const ProfileView(),
+      page: () => ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
@@ -85,13 +89,23 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.UPDATE_PROFILE,
-      page: () => const UpdateProfileView(),
+      page: () => UpdateProfileView(),
       binding: UpdateProfileBinding(),
     ),
     GetPage(
       name: _Paths.NOTIFIKASI,
       page: () => const NotifikasiView(),
       binding: NotifikasiBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_PEGAWAI,
+      page: () => const AddPegawaiView(),
+      binding: AddPegawaiBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME_ADMIN,
+      page: () => const HomeAdminView(),
+      binding: HomeAdminBinding(),
     ),
   ];
 }

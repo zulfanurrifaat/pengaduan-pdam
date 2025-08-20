@@ -7,63 +7,67 @@ class SemuaRiwayatController extends GetxController {
       "kategori pengaduan": "Sistem Informasi",
       "no handphone": "081577234892",
       "uraian pengaduan":
-          "Sistem pengelolaan data pelanggan sering mengalami gangguan",
-      "status": "Selesai"
+          "Sistem pengelolaan data pelanggan mengalami gangguan",
+      "status": "Pending"
     },
     {
       "bagian": "Instalasi Wilayah",
       "kategori pengaduan": "Infrastruktur",
       "no handphone": "089574352231",
-      "uraian pengaduan": "Banyak pipa bocor karena sudah tua",
+      "uraian pengaduan": "Sistem monitoring instalasi wilayah eror",
       "status": "Pending"
     },
     {
       "bagian": "Pengawasan Teknik",
       "kategori pengaduan": "Infrastruktur",
       "no handphone": "089522036542",
-      "uraian pengaduan": "",
+      "uraian pengaduan": "printer eror",
       "status": "Diproses"
     },
     {
       "bagian": "Sumber Air",
       "kategori pengaduan": "Sistem Informasi",
       "no handphone": "081567438892",
-      "uraian pengaduan": "",
-      "status": "Selesai"
+      "uraian pengaduan":
+          "Sistem monitoring kualitas sumber air tidak memberikan data terbaru selama dua hari terakhir.",
+      "status": "Diproses"
     },
     {
       "bagian": "Humas",
-      "kategori pengaduan": "Infrastruktur",
+      "kategori pengaduan": "Sistem Informasi",
       "no handphone": "089522036976",
-      "uraian pengaduan": "",
-      "status": "Pending"
+      "uraian pengaduan":
+          "Platform pengaduan online pelanggan mengalami kendala pada bagian pengunggahan dokumen pendukung.",
+      "status": "Selesai"
     },
     {
       "bagian": "Peralatan",
-      "kategori pengaduan": "Sistem Informasi",
+      "kategori pengaduan": "Infrastruktur",
       "no handphone": "085521036592",
-      "uraian pengaduan": "",
-      "status": "Diproses"
+      "uraian pengaduan": "Komputer eror",
+      "status": "Selesai"
     },
     {
       "bagian": "Keuangan",
       "kategori pengaduan": "Sistem Informasi",
       "no handphone": "081572036532",
-      "uraian pengaduan": "",
+      "uraian pengaduan":
+          "Sistem pembayaran online mengalami kendala, di mana tagihan pelanggan tidak muncul secara real-time ",
       "status": "Selesai"
     },
     {
       "bagian": "Perencanaan Teknik",
       "kategori pengaduan": "Infrastruktur",
       "no handphone": "089528036542",
-      "uraian pengaduan": "",
-      "status": "Diproses"
+      "uraian pengaduan": "printer eror",
+      "status": "Selesai"
     },
     {
       "bagian": "Umum",
       "kategori pengaduan": "Sistem Informasi",
       "no handphone": "085522686542",
-      "uraian pengaduan": "",
+      "uraian pengaduan":
+          "Website resmi PDAM mengalami gangguan saat diakses untuk cek tagihan.",
       "status": "Selesai"
     },
   ].obs;

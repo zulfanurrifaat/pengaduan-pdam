@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/forgot_password_controller.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
-  const ForgotPasswordView({super.key});
+  const ForgotPasswordView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,24 +20,32 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
         children: [
           TextField(
             autocorrect: false,
+            controller: controller.emailC,
             decoration: InputDecoration(
               labelText: "Email",
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(50),
               ),
             ),
           ),
           SizedBox(height: 15),
-          SizedBox(
-            width: 280,
-            child: ElevatedButton(
-              onPressed: () {},
+          Obx(
+            () => ElevatedButton(
+              onPressed: () {
+                if (controller.isLoading.isFalse) {
+                  controller.sendEmail();
+                }
+              },
+              child: Text(
+                controller.isLoading.isFalse
+                    ? "KIRIM RESET PASSWORD"
+                    : "LOADING...",
+                style: TextStyle(
+                  color: Color(0xFF0082C6),
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey.shade100),
-              child: Text(
-                "KIRIM RESET PASSWORD",
-                style: TextStyle(color: Colors.blue.shade400),
-              ),
             ),
           ),
         ],

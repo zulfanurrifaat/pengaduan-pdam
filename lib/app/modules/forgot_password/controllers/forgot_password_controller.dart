@@ -1,23 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordController extends GetxController {
-  //TODO: Implement ForgotPasswordController
+  RxBool isLoading = false.obs;
+  TextEditingController emailC = TextEditingController();
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  void sendEmail() async {
+    print(emailC.value.text + "value");
+    print(emailC.text + "text");
+    if (emailC.text.isNotEmpty) {
+      isLoading.value = true;
+      try {
+        // await auth.sendPasswordResetEmail(email: emailC.text);
+        await auth.sendPasswordResetEmail(email: emailC.text);
+
+        print(emailC.text);
+
+        Get.snackbar("Berhasil",
+            "Kami telah mengirimkan email reset passsword. Periksa email kamu");
+      } catch (e) {
+        Get.snackbar(
+            "Terjadi Kesalahan", "Tidak dapat mengirim email reset passwprd");
+      } finally {
+        isLoading.value = false;
+      }
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
