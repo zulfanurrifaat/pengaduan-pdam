@@ -1,18 +1,19 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/update_profile_controller.dart';
 
 class UpdateProfileView extends GetView<UpdateProfileController> {
   final Map<String, dynamic> user = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
-    controller.nameC.text = user["name"];
-    controller.emailC.text = user["email"];
-    String defaultImage = "https://ui-avatars.com/api/?name=${user['name']}";
+    controller.nameC.text = user["name"] ?? "";
+    controller.emailC.text = user["email"] ?? "";
+
+    final String defaultImage =
+        "https://ui-avatars.com/api/?name=${Uri.encodeComponent(user['name'] ?? 'User')}";
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -21,8 +22,9 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
+          // Email (read-only)
           TextField(
             readOnly: true,
             autocorrect: false,
@@ -34,9 +36,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           TextField(
             autocorrect: false,
             controller: controller.nameC,
@@ -47,14 +47,12 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             "Photo Profile",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -62,7 +60,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
                 builder: (c) {
                   if (c.image != null) {
                     return ClipOval(
-                      child: Container(
+                      child: SizedBox(
                         height: 100,
                         width: 100,
                         child: Image.file(
@@ -72,65 +70,54 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
                       ),
                     );
                   } else {
-                    if (user["profile"] != null) {
-                      return Column(
-                        children: [
-                          ClipOval(
-                            child: Container(
-                              height: 100,
-                              width: 100,
-                              child: Image.network(
-                                user["profile"] != null
-                                    ? user["profile"] != ""
-                                        ? user["profile"]
-                                        : defaultImage
-                                    : defaultImage,
-                                fit: BoxFit.cover,
-                              ),
+                    final String? photoUrl = (user["profile"] != null &&
+                            (user["profile"] as String).isNotEmpty)
+                        ? user["profile"] as String
+                        : null;
+                    return Column(
+                      children: [
+                        ClipOval(
+                          child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Image.network(
+                              photoUrl ?? defaultImage,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              controller.deleteProfile(user["uid"]);
-                            },
-                            child: Text("hapus"),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Text("tidak ada foto");
-                    }
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            controller.deleteProfile(user["uid"]);
+                          },
+                          child: const Text("hapus"),
+                        ),
+                      ],
+                    );
                   }
                 },
               ),
               TextButton(
-                onPressed: () {
-                  controller.pickImage();
-                },
-                child: Text(
+                onPressed: controller.pickImage,
+                child: const Text(
                   "pilih foto",
-                  style: TextStyle(
-                    color: Color(0xFF0082C6),
-                  ),
+                  style: TextStyle(color: Color(0xFF0082C6)),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 30),
+
+          const SizedBox(height: 30),
           Obx(
             () => ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey.shade100),
-              onPressed: () async {
-                if (controller.isLoading.isFalse) {
-                  await controller.updateProfile();
-                }
-              },
+                backgroundColor: Colors.grey.shade100,
+              ),
+              onPressed:
+                  controller.isLoading.isTrue ? null : controller.updateProfile,
               child: Text(
                 controller.isLoading.isFalse ? "UPDATE PROFILE" : "LOADING...",
-                style: TextStyle(
-                  color: Color(0xFF0082C6),
-                ),
+                style: const TextStyle(color: Color(0xFF0082C6)),
               ),
             ),
           ),

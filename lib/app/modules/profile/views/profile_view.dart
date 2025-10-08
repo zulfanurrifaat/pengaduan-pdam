@@ -1,3 +1,4 @@
+// lib/app/modules/profile/views/profile_view.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -7,8 +8,7 @@ import 'package:pengaduan/app/routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  final bool isFromAdminMainPage; // ✅ untuk bedakan versi admin/user
-
+  final bool isFromAdminMainPage;
   const ProfileView({Key? key, this.isFromAdminMainPage = false})
       : super(key: key);
 
@@ -20,6 +20,7 @@ class ProfileView extends GetView<ProfileController> {
         backgroundColor: Colors.white,
         title: const Text('PROFILE'),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: controller.streamUser(),
@@ -38,7 +39,6 @@ class ProfileView extends GetView<ProfileController> {
             return ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                // === Foto Profil ===
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -69,8 +69,6 @@ class ProfileView extends GetView<ProfileController> {
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 50),
-
-                // === Update Profile ===
                 ListTile(
                   onTap: () =>
                       Get.toNamed(Routes.UPDATE_PROFILE, arguments: user),
@@ -79,8 +77,6 @@ class ProfileView extends GetView<ProfileController> {
                   trailing: const Icon(Icons.arrow_forward_ios, size: 20),
                 ),
                 Divider(color: Colors.grey.shade200, thickness: 1),
-
-                // === Update Password ===
                 ListTile(
                   onTap: () => Get.toNamed(Routes.UPDATE_PASSWORD),
                   leading: const Icon(Icons.vpn_key, color: Color(0xFF0082C6)),
@@ -88,8 +84,6 @@ class ProfileView extends GetView<ProfileController> {
                   trailing: const Icon(Icons.arrow_forward_ios, size: 20),
                 ),
                 Divider(color: Colors.grey.shade200, thickness: 1),
-
-                // === Tambah Pegawai hanya untuk admin ===
                 if (isAdmin) ...[
                   ListTile(
                     onTap: () => Get.toNamed(Routes.ADD_PEGAWAI),
@@ -100,8 +94,6 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   Divider(color: Colors.grey.shade200, thickness: 1),
                 ],
-
-                // === Logout ===
                 ListTile(
                   onTap: () => controller.logout(),
                   leading: const Icon(Icons.logout, color: Color(0xFF0082C6)),
@@ -109,19 +101,14 @@ class ProfileView extends GetView<ProfileController> {
                   trailing: const Icon(Icons.arrow_forward_ios, size: 20),
                 ),
                 Divider(color: Colors.grey.shade200, thickness: 1),
-
                 const SizedBox(height: 20),
               ],
             );
           }
 
-          return const Center(
-            child: Text("Tidak dapat memuat data user."),
-          );
+          return const Center(child: Text("Tidak dapat memuat data user."));
         },
       ),
-
-      // ✅ Bottom Nav hanya muncul untuk user biasa
       bottomNavigationBar: isFromAdminMainPage
           ? null
           : ConvexAppBar(
@@ -132,15 +119,13 @@ class ProfileView extends GetView<ProfileController> {
                 TabItem(icon: Icons.add, title: 'Ajukan'),
                 TabItem(icon: Icons.people, title: 'Profile'),
               ],
-              initialActiveIndex: 2, // aktifkan tab Profile
+              initialActiveIndex: 2,
               onTap: (int index) {
                 if (index == 1) {
                   Get.toNamed(Routes.FORM_PENGAJUAN);
                 } else if (index == 0) {
                   Get.offAllNamed(Routes.HOME);
-                } else if (index == 2) {
-                  // sudah di profile, jangan reload
-                }
+                } else if (index == 2) {}
               },
             ),
     );

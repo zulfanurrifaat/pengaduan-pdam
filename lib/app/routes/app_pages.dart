@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../modules/add_pegawai/bindings/add_pegawai_binding.dart';
 import '../modules/add_pegawai/views/add_pegawai_view.dart';
+
 import '../modules/detail_pengaduan/bindings/detail_pengaduan_binding.dart';
 import '../modules/detail_pengaduan/views/detail_pengaduan_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -11,7 +12,10 @@ import '../modules/form_pengajuan/views/form_pengajuan_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home_admin/bindings/home_admin_binding.dart';
-import '../modules/home_admin/views/home_admin_view.dart';
+
+// ⬇️ gunakan AdminMainPage sbg shell
+import '../modules/home_admin/views/admin_main_page.dart';
+
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/notifikasi/bindings/notifikasi_binding.dart';
@@ -59,7 +63,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -104,7 +108,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HOME_ADMIN,
-      page: () => const HomeAdminView(),
+      page: () => const AdminMainPage(),
       binding: HomeAdminBinding(),
     ),
   ];

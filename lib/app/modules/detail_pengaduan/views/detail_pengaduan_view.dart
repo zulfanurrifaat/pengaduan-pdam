@@ -7,8 +7,6 @@ class DetailPengaduanView extends GetView<DetailPengaduanController> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> riwayat = Get.arguments;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,87 +17,67 @@ class DetailPengaduanView extends GetView<DetailPengaduanController> {
         ),
         centerTitle: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey.shade400),
+      body: Obx(() {
+        final riwayat = controller.data.value ?? const <String, dynamic>{};
+
+        String? _val(List<String> keys) {
+          for (final k in keys) {
+            final v = riwayat[k];
+            if (v is String && v.trim().isNotEmpty) return v;
+          }
+          return null;
+        }
+
+        final bagian = _val(['bagian', 'Bagian']);
+        final kategoriPengaduan =
+            _val(['kategoriPengaduan', 'kategori pengaduan']);
+        final noHandphone = _val(['noHandphone', 'no handphone']);
+        final uraianPengaduan = _val(['uraianPengaduan', 'uraian pengaduan']);
+
+        return ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.grey.shade400),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildRow("Bagian", bagian),
+                  const SizedBox(height: 8),
+                  _buildRow("Kategori Pengaduan", kategoriPengaduan),
+                  const SizedBox(height: 8),
+                  _buildRow("No Handphone", noHandphone),
+                  const SizedBox(height: 8),
+                  _buildRow("Uraian Pengaduan", uraianPengaduan),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Bagian: ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: Text(
-                        riwayat['bagian'] ?? 'N/A',
-                        style: const TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Kategori Pengaduan: ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: Text(
-                        riwayat['kategori pengaduan'] ?? 'N/A',
-                        style: const TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "No Handphone: ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: Text(
-                        riwayat['no handphone'] ?? 'N/A',
-                        style: const TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Uraian Pengaduan: ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: Text(
-                        riwayat['uraian pengaduan'] ?? 'N/A',
-                        style: const TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget _buildRow(String title, String? value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "$title: ",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Expanded(
+          child: Text(
+            value ?? "Tidak tersedia",
+            style: const TextStyle(fontWeight: FontWeight.normal),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

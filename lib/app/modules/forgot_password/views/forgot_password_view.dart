@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/forgot_password_controller.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
@@ -16,7 +14,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
           TextField(
             autocorrect: false,
@@ -27,25 +25,21 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                 borderRadius: BorderRadius.circular(50),
               ),
             ),
+            keyboardType: TextInputType.emailAddress,
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Obx(
             () => ElevatedButton(
-              onPressed: () {
-                if (controller.isLoading.isFalse) {
-                  controller.sendEmail();
-                }
-              },
+              onPressed:
+                  controller.isLoading.isTrue ? null : controller.sendEmail,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey.shade100),
               child: Text(
                 controller.isLoading.isFalse
                     ? "KIRIM RESET PASSWORD"
                     : "LOADING...",
-                style: TextStyle(
-                  color: Color(0xFF0082C6),
-                ),
+                style: const TextStyle(color: Color(0xFF0082C6)),
               ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey.shade100),
             ),
           ),
         ],

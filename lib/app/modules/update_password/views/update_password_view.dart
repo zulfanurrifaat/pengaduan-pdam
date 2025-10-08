@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/update_password_controller.dart';
 
 class UpdatePasswordView extends GetView<UpdatePasswordController> {
@@ -16,9 +14,10 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
           TextField(
+            controller: controller.currentPassC,
             autocorrect: false,
             obscureText: true,
             decoration: InputDecoration(
@@ -28,8 +27,9 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
               ),
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           TextField(
+            controller: controller.newPassC,
             autocorrect: false,
             obscureText: true,
             decoration: InputDecoration(
@@ -39,8 +39,9 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
               ),
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           TextField(
+            controller: controller.confirmPassC,
             autocorrect: false,
             obscureText: true,
             decoration: InputDecoration(
@@ -50,21 +51,23 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
               ),
             ),
           ),
-          SizedBox(height: 10),
-          SizedBox(
-            width: 280,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey.shade100),
-              child: Text(
-                "UBAH PASSWORD",
-                style: TextStyle(
-                  color: Color(0xFF0082C6),
+          const SizedBox(height: 10),
+          Obx(() => SizedBox(
+                width: 280,
+                child: ElevatedButton(
+                  onPressed: controller.isLoading.isTrue
+                      ? null
+                      : controller.changePassword,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade100),
+                  child: Text(
+                    controller.isLoading.isFalse
+                        ? "UBAH PASSWORD"
+                        : "LOADING...",
+                    style: const TextStyle(color: Color(0xFF0082C6)),
+                  ),
                 ),
-              ),
-            ),
-          ),
+              )),
         ],
       ),
     );

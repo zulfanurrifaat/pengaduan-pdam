@@ -5,8 +5,8 @@ import 'package:pengaduan/app/modules/home_admin/controllers/home_admin_controll
 class HomeAdminBinding extends Bindings {
   @override
   void dependencies() {
-    // ✅ daftarkan controller yang dibutuhkan di AdminMainPage
     Get.put(ProfileController());
     Get.put(HomeAdminController());
+    Get.lazyPut<HomeAdminController>(() => HomeAdminController(), fenix: true);
   }
 }

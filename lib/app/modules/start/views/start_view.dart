@@ -24,7 +24,7 @@ class StartView extends GetView<StartController> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             SizedBox(
               width: 220,
               height: 50,
@@ -34,9 +34,9 @@ class StartView extends GetView<StartController> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey.shade100,
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
-                child: Text(
+                child: const Text(
                   "LOGIN",
                   style: TextStyle(
                     color: Color(0xFF0082C6),
@@ -45,7 +45,7 @@ class StartView extends GetView<StartController> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             SizedBox(
               width: 220,
               height: 50,
@@ -54,10 +54,10 @@ class StartView extends GetView<StartController> {
                   Get.toNamed(Routes.REGISTRASI);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF0082C6),
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  backgroundColor: const Color(0xFF0082C6),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
-                child: Text(
+                child: const Text(
                   "DAFTAR ADMIN",
                   style: TextStyle(
                     color: Colors.white,

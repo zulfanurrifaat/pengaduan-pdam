@@ -1,12 +1,18 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+  final bool fromTab;
+
+  const HomeView({super.key, this.fromTab = false});
+
+  const HomeView.fromTab({super.key}) : fromTab = true;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,7 @@ class HomeView extends GetView<HomeController> {
             child: Column(
               children: [
                 Container(
-                  height: 330,
+                  height: 350,
                   decoration: const BoxDecoration(
                     color: Color(0xFF0082C6),
                     borderRadius: BorderRadius.only(
@@ -36,7 +42,7 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ======= HEADER LOGO & NOTIFIKASI =======
+                  // LOGO + NOTIF
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -44,8 +50,8 @@ class HomeView extends GetView<HomeController> {
                         children: [
                           Image.asset(
                             'assets/images/pdaamm.png',
-                            width: 80,
-                            height: 57,
+                            width: 90,
+                            height: 65,
                           ),
                           const SizedBox(width: 5),
                           Column(
@@ -53,13 +59,15 @@ class HomeView extends GetView<HomeController> {
                             children: const [
                               Text(
                                 "PERUMDAM",
-                                style:
-                                    TextStyle(fontSize: 8, color: Colors.white),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.white,
+                                ),
                               ),
                               Text(
                                 "TIRTA WIJAYA",
                                 style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 15,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic,
@@ -82,40 +90,40 @@ class HomeView extends GetView<HomeController> {
                     ],
                   ),
                   const SizedBox(height: 20),
-
-                  // ======= HALO USER =======
-                  Obx(() => Text(
-                        "Halo, ${controller.namaUser.value}",
-                        style: GoogleFonts.lato(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      )),
-
+                  // HALO USER
+                  Obx(
+                    () => Text(
+                      "Halo, ${controller.namaUser.value}",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 15),
 
-                  // ======= KOTAK AKTIVITAS =======
+                  // KOTAK AKTIVITAS
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black12,
                           blurRadius: 5,
-                          offset: const Offset(0, 2),
+                          offset: Offset(0, 2),
                         ),
                       ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Aktivitasmu bulan ini",
-                          style: GoogleFonts.lato(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -133,9 +141,10 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 15),
 
-                  // ======= TOMBOL BUAT TICKET =======
+                  // TOMBOL BUAT TICKET
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -145,20 +154,22 @@ class HomeView extends GetView<HomeController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey.shade100,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 15),
-                        textStyle: const TextStyle(fontSize: 18),
+                          horizontal: 20,
+                          vertical: 15,
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'Buat ticket pengaduan',
-                            style: GoogleFonts.lato(
-                              color: const Color(0xFF0082C6),
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Color(0xFF0082C6),
                             ),
                           ),
-                          const SizedBox(width: 15),
-                          const Icon(
+                          SizedBox(width: 15),
+                          Icon(
                             Icons.mail,
                             color: Color(0xFF0082C6),
                           ),
@@ -166,15 +177,16 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 15),
 
-                  // ======= JUDUL RIWAYAT =======
+                  // JUDUL RIWAYAT
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         "Riwayat pengaduan",
-                        style: GoogleFonts.lato(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
@@ -185,112 +197,142 @@ class HomeView extends GetView<HomeController> {
                         },
                         child: Text(
                           "Lihat semua...",
-                          style: GoogleFonts.lato(color: Colors.blue.shade400),
+                          style: TextStyle(color: Colors.blue.shade400),
                         ),
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 10),
 
-                  // ======= LISTVIEW RIWAYAT SCROLLABLE =======
+                  // LISTVIEW RIWAYAT
                   Expanded(
-                    child: Obx(
-                      () {
-                        if (controller.riwayatData.isEmpty) {
-                          return const Center(
-                              child: Text("Belum ada pengaduan"));
-                        }
-                        return ListView.builder(
-                          itemCount: controller.riwayatData.length,
-                          itemBuilder: (context, index) {
-                            final riwayat = controller.riwayatData[index];
-                            return GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.DETAIL_PENGADUAN,
-                                    arguments: riwayat);
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 15),
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border:
-                                      Border.all(color: Colors.grey.shade200),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          riwayat['kategori pengaduan'] ??
-                                              "Tidak Tersedia",
-                                          style: GoogleFonts.lato(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 5,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: _getStatusColor(
-                                                riwayat['status']),
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                          child: Text(
-                                            riwayat['status'] ?? "Pending",
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                    child: Obx(() {
+                      final items = List<Map<String, dynamic>>.from(
+                          controller.riwayatData);
+                      if (items.isEmpty) {
+                        return const Center(child: Text("Belum ada pengaduan"));
+                      }
+
+                      final count = items.length >= 5 ? 5 : items.length;
+
+                      return ListView.builder(
+                        itemCount: count,
+                        itemBuilder: (context, index) {
+                          if (index >= items.length) {
+                            return const SizedBox.shrink();
+                          }
+                          final riwayat = items[index];
+
+                          //  tanggal dari 'tanggal' atau 'createdAt'
+                          final ts =
+                              (riwayat['tanggal'] ?? riwayat['createdAt']);
+                          final tanggalStr = _formatTanggal(ts);
+
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(
+                                Routes.DETAIL_PENGADUAN,
+                                arguments: riwayat,
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 15),
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: Colors.grey.shade300),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    riwayat['namaPengirim'] ?? "User",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueGrey,
                                     ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      riwayat['uraian pengaduan'] ??
-                                          "Uraian tidak tersedia",
-                                      style: GoogleFonts.lato(
-                                        fontSize: 14,
-                                        color: Colors.grey.shade700,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        riwayat['kategori pengaduan'] ??
+                                            "Tidak Tersedia",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Colors.black87,
+                                        ),
                                       ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 5,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: _getStatusColor(
+                                              riwayat['status']),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: Text(
+                                          riwayat['status'] ?? "Pending",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    riwayat['uraian pengaduan'] ??
+                                        "Uraian tidak tersedia",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
                                     ),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.phone,
-                                          size: 16,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.phone,
+                                          size: 16, color: Colors.grey),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        riwayat['no handphone'] ??
+                                            "Tidak tersedia",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.blue.shade400,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 50),
+                                      const Icon(Icons.calendar_today,
+                                          size: 14, color: Colors.grey),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        tanggalStr,
+                                        style: const TextStyle(
+                                          fontSize: 12,
                                           color: Colors.grey,
                                         ),
-                                        const SizedBox(width: 5),
-                                        Text(
-                                          riwayat['no handphone'] ??
-                                              "Tidak tersedia",
-                                          style: GoogleFonts.lato(
-                                            fontSize: 13,
-                                            color: Colors.blue.shade400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+                            ),
+                          );
+                        },
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -298,30 +340,30 @@ class HomeView extends GetView<HomeController> {
           ),
         ],
       ),
-      // ======= NAVBAR =======
-      bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.fixed,
-        backgroundColor: const Color(0xFF0082C6),
-        items: const [
-          TabItem(icon: Icons.home, title: 'Home'),
-          TabItem(icon: Icons.add, title: 'Ajukan'),
-          TabItem(icon: Icons.people, title: 'Profile'),
-        ],
-        initialActiveIndex: 0,
-        onTap: (int index) {
-          if (index == 1) {
-            Get.toNamed(Routes.FORM_PENGAJUAN);
-          } else if (index == 0) {
-            // Jangan reload Home lagi biar tidak duplikat
-          } else if (index == 2) {
-            Get.toNamed(Routes.PROFILE);
-          }
-        },
-      ),
+
+      // NAVBAR (tetap seperti semula)
+      bottomNavigationBar: fromTab
+          ? null
+          : ConvexAppBar(
+              style: TabStyle.fixed,
+              backgroundColor: const Color(0xFF0082C6),
+              items: const [
+                TabItem(icon: Icons.home, title: 'Home'),
+                TabItem(icon: Icons.add, title: 'Ajukan'),
+                TabItem(icon: Icons.people, title: 'Profile'),
+              ],
+              initialActiveIndex: 0,
+              onTap: (int index) {
+                if (index == 1) {
+                  Get.toNamed(Routes.FORM_PENGAJUAN);
+                } else if (index == 2) {
+                  Get.toNamed(Routes.PROFILE);
+                }
+              },
+            ),
     );
   }
 
-  // Warna status pengaduan
   Color _getStatusColor(String? status) {
     switch (status) {
       case "Pending":
@@ -335,7 +377,6 @@ class HomeView extends GetView<HomeController> {
     }
   }
 
-  // Item statistik
   Widget _buildStatItem(String title, RxInt value) {
     return Column(
       children: [
@@ -352,5 +393,16 @@ class HomeView extends GetView<HomeController> {
         ),
       ],
     );
+  }
+
+  String _formatTanggal(dynamic v) {
+    if (v == null) return '-';
+    if (v is Timestamp) {
+      return DateFormat('dd MMMM yyyy', 'id_ID').format(v.toDate());
+    }
+    if (v is DateTime) {
+      return DateFormat('dd MMMM yyyy', 'id_ID').format(v);
+    }
+    return '-';
   }
 }

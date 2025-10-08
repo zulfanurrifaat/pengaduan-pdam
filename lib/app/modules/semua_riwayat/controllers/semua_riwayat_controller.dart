@@ -1,102 +1,90 @@
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class SemuaRiwayatController extends GetxController {
-  var riwayatData = [
-    {
-      "bagian": "Laboratorium",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "081577234892",
-      "uraian pengaduan":
-          "Sistem pengelolaan data pelanggan mengalami gangguan",
-      "status": "Pending"
-    },
-    {
-      "bagian": "Instalasi Wilayah",
-      "kategori pengaduan": "Infrastruktur",
-      "no handphone": "089574352231",
-      "uraian pengaduan": "Sistem monitoring instalasi wilayah eror",
-      "status": "Pending"
-    },
-    {
-      "bagian": "Pengawasan Teknik",
-      "kategori pengaduan": "Infrastruktur",
-      "no handphone": "089522036542",
-      "uraian pengaduan": "printer eror",
-      "status": "Diproses"
-    },
-    {
-      "bagian": "Sumber Air",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "081567438892",
-      "uraian pengaduan":
-          "Sistem monitoring kualitas sumber air tidak memberikan data terbaru selama dua hari terakhir.",
-      "status": "Diproses"
-    },
-    {
-      "bagian": "Humas",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "089522036976",
-      "uraian pengaduan":
-          "Platform pengaduan online pelanggan mengalami kendala pada bagian pengunggahan dokumen pendukung.",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Peralatan",
-      "kategori pengaduan": "Infrastruktur",
-      "no handphone": "085521036592",
-      "uraian pengaduan": "Komputer eror",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Keuangan",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "081572036532",
-      "uraian pengaduan":
-          "Sistem pembayaran online mengalami kendala, di mana tagihan pelanggan tidak muncul secara real-time ",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Perencanaan Teknik",
-      "kategori pengaduan": "Infrastruktur",
-      "no handphone": "089528036542",
-      "uraian pengaduan": "printer eror",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Umum",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "085522686542",
-      "uraian pengaduan":
-          "Website resmi PDAM mengalami gangguan saat diakses untuk cek tagihan.",
-      "status": "Selesai"
-    },
-  ].obs;
+  final _auth = FirebaseAuth.instance;
+  final _fs = FirebaseFirestore.instance;
 
-  var total = 0.obs;
-  var pending = 0.obs;
-  var diproses = 0.obs;
-  var selesai = 0.obs;
+  /// daftar semua riwayat user (terbaru di atas)
+  final items = <Map<String, dynamic>>[].obs;
 
-  void hitungStatusPengaduan() {
-    total.value = riwayatData.length;
-    pending.value = riwayatData
-        .where((riwayat) => riwayat['status'] == 'Pending')
-        .toList()
-        .length;
-    diproses.value = riwayatData
-        .where((riwayat) => riwayat['status'] == 'Diproses')
-        .toList()
-        .length;
-    selesai.value = riwayatData
-        .where((riwayat) => riwayat['status'] == 'Selesai')
-        .toList()
-        .length;
-  }
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _sub;
 
   @override
   void onInit() {
     super.onInit();
+    _listenAllRiwayat();
+  }
 
-    hitungStatusPengaduan();
+  void _listenAllRiwayat() {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    _sub?.cancel();
+    _sub = _fs
+        .collection('pengaduan')
+        .where('uid', isEqualTo: user.uid)
+        .orderBy('tanggal', descending: true)
+        .snapshots()
+        .listen((snap) {
+      final list = snap.docs.map((d) {
+        final m = Map<String, dynamic>.from(d.data());
+        m['id'] = d.id;
+        _normalizeKeysInPlace(m);
+        m['tanggalFormatted'] = _formatTanggal(_pickTimestamp(m));
+        return m;
+      }).toList();
+
+      items.assignAll(list);
+    }, onError: (e) {
+      Get.snackbar("Error", "Gagal memuat riwayat: $e",
+          snackPosition: SnackPosition.TOP);
+      items.clear();
+    });
+  }
+
+  /// Ambil timestamp utama (tanggal > createdAt > updatedAt)
+  Timestamp? _pickTimestamp(Map<String, dynamic> m) {
+    final a = m['tanggal'];
+    final b = m['createdAt'];
+    final c = m['updatedAt'];
+    if (a is Timestamp) return a;
+    if (b is Timestamp) return b;
+    if (c is Timestamp) return c;
+    return null;
+  }
+
+  /// Format: 12 Desember 2024 (locale: id_ID)
+  String _formatTanggal(Timestamp? ts) {
+    if (ts == null) return '-';
+    try {
+      final d = ts.toDate();
+      return DateFormat('d MMMM yyyy', 'id_ID').format(d);
+    } catch (_) {
+      return '-';
+    }
+  }
+
+  /// Samakan key yang mungkin beda penamaan
+  void _normalizeKeysInPlace(Map<String, dynamic> d) {
+    d['kategoriPengaduan'] = d['kategoriPengaduan'] ?? d['kategori pengaduan'];
+    d['kategori pengaduan'] = d['kategori pengaduan'] ?? d['kategoriPengaduan'];
+
+    d['noHandphone'] = d['noHandphone'] ?? d['no handphone'];
+    d['no handphone'] = d['no handphone'] ?? d['noHandphone'];
+
+    d['uraianPengaduan'] = d['uraianPengaduan'] ?? d['uraian pengaduan'];
+    d['uraian pengaduan'] = d['uraian pengaduan'] ?? d['uraianPengaduan'];
+
+    d['namaPengirim'] = d['namaPengirim'] ?? d['nama pengirim'];
+  }
+
+  @override
+  void onClose() {
+    _sub?.cancel();
+    super.onClose();
   }
 }

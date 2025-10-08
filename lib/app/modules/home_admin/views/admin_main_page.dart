@@ -18,8 +18,6 @@ class _AdminMainPageState extends State<AdminMainPage> {
   @override
   void initState() {
     super.initState();
-
-    // ✅ Pastikan ProfileController terdaftar sekali saja
     if (!Get.isRegistered<ProfileController>()) {
       Get.put(ProfileController());
     }
@@ -27,15 +25,15 @@ class _AdminMainPageState extends State<AdminMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _pages = const [
-      HomeAdminView(),
+    final pages = const [
+      HomeAdminView(), //
       ProfileView(isFromAdminMainPage: true),
     ];
 
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: _pages,
+        children: pages,
       ),
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.react,
@@ -46,9 +44,8 @@ class _AdminMainPageState extends State<AdminMainPage> {
         ],
         initialActiveIndex: _currentIndex,
         onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          if (index < 0 || index >= pages.length) return;
+          setState(() => _currentIndex = index);
         },
       ),
     );

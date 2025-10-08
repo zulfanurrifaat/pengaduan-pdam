@@ -57,7 +57,7 @@ class AddPegawaiController extends GetxController {
       if (e.code == 'invalid-email') {
         Get.snackbar("Error", "Email tidak valid");
       } else if (e.code == 'email-already-in-use') {
-        Get.snackbar("Error", "Email sudah digunakan");
+        Get.snackbar("Error", "Email ini sudah digunakan, gunakan email lain");
       } else if (e.code == 'weak-password') {
         Get.snackbar("Error", "Password terlalu lemah");
       } else {

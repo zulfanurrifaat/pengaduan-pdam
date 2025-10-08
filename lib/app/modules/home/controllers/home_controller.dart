@@ -1,103 +1,99 @@
-import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  var riwayatData = [
-    {
-      "bagian": "Administrasi Umum",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "081577234892",
-      "uraian pengaduan":
-          "Sistem pengelolaan data pelanggan mengalami gangguan",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Keuangan",
-      "kategori pengaduan": "Infrastruktur",
-      "no handphone": "089574352231",
-      "uraian pengaduan": "Jaringan down",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Humas",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "089522036542",
-      "uraian pengaduan": "Software desain eror",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Keuangan",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "081567438892",
-      "uraian pengaduan": "Printer rusak",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Humas",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "089522036976",
-      "uraian pengaduan": "Printer eror",
-      "status": "Selesai"
-    },
-    {
-      "bagian": "Sumber Daya Manusia",
-      "kategori pengaduan": "Sistem Informasi",
-      "no handphone": "085521036592",
-      "uraian pengaduan": "Data Pegawai corrupt",
-      "status": "Selesai"
-    },
-  ].obs;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _fs = FirebaseFirestore.instance;
 
-  var total = 0.obs;
-  var pending = 0.obs;
-  var diproses = 0.obs;
-  var selesai = 0.obs;
+  final namaUser = 'User'.obs;
 
-  /// 👉 tambahan supaya nama user dinamis
-  var namaUser = "".obs;
+  final riwayatData = <Map<String, dynamic>>[].obs;
+
+  final total = 0.obs;
+  final pending = 0.obs;
+  final diproses = 0.obs;
+  final selesai = 0.obs;
+
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _sub;
 
   @override
   void onInit() {
     super.onInit();
-    hitungStatusPengaduan();
-    ambilNamaUser(); // panggil saat controller diinisialisasi
+    _loadUserName();
+    _listenPengaduanUser();
   }
 
-  void hitungStatusPengaduan() {
-    total.value = riwayatData.length;
-    pending.value = riwayatData
-        .where((riwayat) => riwayat['status'] == 'Pending')
-        .toList()
-        .length;
-
-    diproses.value = riwayatData
-        .where((riwayat) => riwayat['status'] == 'Diproses')
-        .toList()
-        .length;
-
-    selesai.value = riwayatData
-        .where((riwayat) => riwayat['status'] == 'Selesai')
-        .toList()
-        .length;
-  }
-
-  /// 🔑 ambil nama user dari Firestore berdasarkan UID Firebase Auth
-  void ambilNamaUser() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final snapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user.uid)
-          .get();
-
-      if (snapshot.exists) {
-        namaUser.value = snapshot.data()?['name'] ?? "User";
-      } else {
-        namaUser.value = "User";
-      }
-    } else {
-      namaUser.value = "User";
+  Future<void> _loadUserName() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      namaUser.value = 'User';
+      return;
     }
+    try {
+      final snap = await _fs.collection('users').doc(user.uid).get();
+      if (snap.exists) {
+        final data = snap.data()!;
+        final display = (data['name'] as String?)?.trim();
+        namaUser.value = (display != null && display.isNotEmpty)
+            ? display
+            : (user.displayName ?? 'User');
+      } else {
+        namaUser.value = user.displayName ?? 'User';
+      }
+    } catch (_) {
+      namaUser.value = user.displayName ?? 'User';
+    }
+  }
+
+  void _listenPengaduanUser() {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    _sub?.cancel();
+    _sub = _fs
+        .collection('pengaduan')
+        .where('uid', isEqualTo: user.uid)
+        .orderBy('tanggal', descending: true)
+        .snapshots()
+        .listen((snap) {
+      final list = snap.docs.map((d) {
+        final m = Map<String, dynamic>.from(d.data());
+        m['id'] = d.id;
+        _normalizeKeysInPlace(m);
+        return m;
+      }).toList();
+
+      riwayatData.assignAll(list);
+      _hitungStat(list);
+    });
+  }
+
+  void _normalizeKeysInPlace(Map<String, dynamic> d) {
+    d['kategoriPengaduan'] = d['kategoriPengaduan'] ?? d['kategori pengaduan'];
+    d['kategori pengaduan'] = d['kategori pengaduan'] ?? d['kategoriPengaduan'];
+    d['noHandphone'] = d['noHandphone'] ?? d['no handphone'];
+    d['no handphone'] = d['no handphone'] ?? d['noHandphone'];
+    d['uraianPengaduan'] = d['uraianPengaduan'] ?? d['uraian pengaduan'];
+    d['uraian pengaduan'] = d['uraian pengaduan'] ?? d['uraianPengaduan'];
+    d['bagian'] = d['bagian'] ?? d['Bagian'];
+
+    // ⬇️ fallback tanggal agar view bisa selalu menampilkan
+    d['tanggal'] = d['tanggal'] ?? d['createdAt'] ?? d['updatedAt'];
+  }
+
+  void _hitungStat(List<Map<String, dynamic>> list) {
+    total.value = list.length;
+    pending.value = list.where((e) => (e['status'] ?? '') == 'Pending').length;
+    diproses.value =
+        list.where((e) => (e['status'] ?? '') == 'Diproses').length;
+    selesai.value = list.where((e) => (e['status'] ?? '') == 'Selesai').length;
+  }
+
+  @override
+  void onClose() {
+    _sub?.cancel();
+    super.onClose();
   }
 }
